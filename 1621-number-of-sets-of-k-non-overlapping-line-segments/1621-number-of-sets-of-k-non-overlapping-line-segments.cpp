@@ -7,9 +7,8 @@ public:
         long long result = 1;
 
         while(b > 0) {
-            if(b % 2 == 1) {
+            if(b % 2 == 1)
                 result = result * a % MOD;
-            }
 
             a = a * a % MOD;
             b /= 2;
@@ -20,18 +19,25 @@ public:
 
     int numberOfSets(int n, int k) {
 
-        long long N = n + k - 1;
-        long long R = 2 * k;
+        int N = n + k - 1;
+        int R = 2 * k;
 
-        long long ans = 1;
+        vector<long long> fact(N + 1);
 
-        for(int i = 1; i <= R; i++) {
+        fact[0] = 1;
 
-            ans = ans * (N - R + i) % MOD;
-
-            ans = ans * power(i, MOD - 2) % MOD;
+        for(int i = 1; i <= N; i++) {
+            fact[i] = fact[i - 1] * i % MOD;
         }
 
-        return ans;
+        long long numerator = fact[N];
+
+        long long denominator =
+            fact[R] * fact[N - R] % MOD;
+
+        long long inverse =
+            power(denominator, MOD - 2);
+
+        return numerator * inverse % MOD;
     }
 };
